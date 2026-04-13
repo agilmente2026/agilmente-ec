@@ -1,0 +1,208 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache,no-store,must-revalidate"><meta http-equiv="Pragma" content="no-cache"><meta http-equiv="Expires" content="0">
+<title>Admin — ÁGILMENTE</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--dark:#25356A;--light:#68B8D9;--gold:#FFC107;--gray:#6b7280;--bg:#f8fafc}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Montserrat',sans-serif;background:var(--bg);color:#333}
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-bottom:1px solid rgba(0,0,0,.06);padding:0 24px;height:70px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-size:22px;font-weight:800;display:flex;align-items:center;gap:8px}.nav-logo .d{color:var(--dark)}.nav-logo .l{color:var(--light)}
+.wrap{max-width:800px;margin:90px auto 40px;padding:0 16px}
+.card{background:#fff;border-radius:12px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,.08);margin-bottom:20px}
+.fg{margin-bottom:14px}.fg label{display:block;font-size:13px;font-weight:600;color:#444;margin-bottom:5px}
+.fg input,.fg textarea,.fg select{width:100%;padding:10px 12px;border:1.5px solid #dde;border-radius:8px;font-family:Montserrat,sans-serif;font-size:13px}
+.fg textarea{resize:vertical;min-height:50px}
+.btn{padding:12px 24px;border:none;border-radius:8px;font-family:Montserrat,sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s}
+.btn-dark{background:var(--dark);color:#fff}.btn-dark:hover{background:#1a2548}
+.btn-gold{background:var(--gold);color:var(--dark)}.btn-gold:hover{box-shadow:0 4px 12px rgba(255,193,7,.4)}
+.btn-red{background:#e74c3c;color:#fff}.btn-red:hover{background:#c0392b}
+.btn-green{background:#27ae60;color:#fff}.btn-green:hover{background:#219a52}
+.btn-sm{padding:6px 14px;font-size:12px;border-radius:6px}
+.section{border:1px solid #eef;border-radius:12px;padding:20px;margin-bottom:20px}
+.section h3{color:var(--dark);font-size:16px;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--light);display:flex;justify-content:space-between;align-items:center}
+.svc-card{border:1px solid #e5e9f0;border-radius:10px;padding:16px;margin-bottom:12px;position:relative;background:#fafbfc}
+.svc-card.inactive{opacity:.5}
+.svc-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.svc-header .icon-input{width:50px;font-size:20px;text-align:center;padding:6px}
+.svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.svc-actions{display:flex;gap:6px;margin-top:10px;justify-content:flex-end}
+.toast{position:fixed;top:80px;right:20px;background:#4caf50;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;display:none;z-index:200;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.tabs{display:flex;gap:4px;margin-bottom:20px}.tab{padding:10px 20px;border-radius:8px 8px 0 0;font-size:13px;font-weight:700;cursor:pointer;border:1px solid #e5e9f0;border-bottom:none;background:#f0f2f5;color:var(--gray)}.tab.active{background:#fff;color:var(--dark);border-bottom:1px solid #fff;margin-bottom:-1px;position:relative;z-index:1}
+.tab-content{display:none}.tab-content.active{display:block}
+@media(max-width:600px){.svc-grid{grid-template-columns:1fr}.tabs{flex-wrap:wrap}}
+</style></head><body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo" style="text-decoration:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="100 120 440 360" width="36" height="30"><path fill="#25356A" d="M314.31,369.38c0,15.32-0.24,30.65,0.06,45.96c0.44,22.71-13.91,40.3-35.87,45.33c-28.48,6.52-58.61-9.87-66.66-38.47c-0.78-2.78-2-3.39-4.69-3.42c-28.18-0.35-53.05-19.12-60.28-45.49c-1.86-6.77-2.81-13.73-1.94-20.78c0.22-1.77-0.66-2.57-1.68-3.58c-11.14-10.97-18.92-23.98-21.18-39.48c-4.14-28.31,4.94-51.68,27.92-69.23c1.58-1.2,2.48-2.22,2.28-4.48c-2.49-28.14,9.94-48.15,34.09-61.52c8.65-4.79,18.15-6.9,27.99-7.39c1.93-0.1,2.82-0.74,3.6-2.5c6.08-13.8,16.02-23.8,30.34-28.74c21.37-7.38,44.4-0.46,55.98,18.3c5.7,9.24,7.38,18.9,3.14,29.66c-7.73,19.6-14.72,39.49-21.94,59.29c-8.56,23.5-16.99,47.05-25.61,70.52c-1.05,2.86-0.6,3.46,2.38,3.44c16.2-0.12,32.4,0,48.59-0.16c2.78-0.03,3.66,0.45,3.63,3.48c-0.18,16.41-0.09,32.83-0.09,49.25z"/><path fill="#68B8D9" d="M321.89,217.03c0-14.01-0.23-28.02,0.06-42.02c0.36-17.57,9.29-30.01,24.63-37.71c12.7-6.38,25.98-6.29,39.06-0.91c11.96,4.92,20.51,13.62,25.8,25.33c1.67,3.69,3.68,4.82,7.76,5.04c13.53,0.73,25.79,5.35,36.46,13.89c12.46,9.97,20.13,22.84,23.27,38.43c1.02,5.06,1.56,10.24,0.77,15.32c-0.47,3.04,0.53,4.65,2.74,6.3c8.92,6.63,15.92,14.93,21.02,24.79c14.04,27.13,9.06,60.77-12.39,82.53c-2.48,2.52-3.39,4.94-3.23,8.33c0.88,19.59-6.58,35.69-21.31,48.31c-10.23,8.77-22.31,13.68-35.83,14.6c-6.98,0.47-6.99,0.31-9.38,6.8c-8.22,22.4-28.27,36.26-52.34,35.92c-19.48-0.28-33.73-9.4-42.84-26.47c-3.19-5.98-4.44-12.64-4.09-19.37c0.27-5.19,3.21-9.7,5.13-14.43c11.96-29.48,24.01-58.91,36.08-88.34c6.01-14.67,12.11-29.3,18.19-43.93c1.27-3.04,1.16-3.34-2.15-3.34c-17.62-0.01-35.24,0.01-52.86,0.01c-4.55,0-4.56-0.02-4.57-4.42c-0.01-14.88,0-29.77,0-44.65z"/></svg><span><span class="d">ÁGIL</span><span class="l">MENTE</span></span></a>
+  <span style="font-size:13px;color:var(--gray)">Panel Admin</span>
+</nav>
+
+<div class="wrap">
+<!-- LOGIN -->
+<div class="card" id="loginBox">
+  <h2 style="color:var(--dark);margin-bottom:20px;text-align:center">🔐 Panel de Administración</h2>
+  <div class="fg"><label>URL del API (Google Apps Script)</label><input id="apiUrl" placeholder="https://script.google.com/macros/s/.../exec"></div>
+  <button class="btn btn-sm btn-dark" onclick="localStorage.setItem('am_api',document.getElementById('apiUrl').value.trim());showToast('URL guardada')" style="margin-bottom:16px">Guardar URL</button>
+  <div class="fg"><label>Clave de acceso</label><input type="password" id="authKey" placeholder="Ingrese su clave" onkeydown="if(event.key==='Enter')doLogin()"></div>
+  <button class="btn btn-gold" style="width:100%" onclick="doLogin()">Ingresar →</button>
+  <p id="loginErr" style="color:#e74c3c;font-size:13px;text-align:center;margin-top:10px;display:none">Clave incorrecta</p>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="adminPanel" style="display:none">
+<h2 style="color:var(--dark);margin-bottom:4px">Panel de Administración</h2>
+<p style="color:var(--gray);font-size:13px;margin-bottom:20px">Edita servicios, precios y configuración. Los cambios se reflejan al instante.</p>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab(0)">📦 Servicios</div>
+  <div class="tab" onclick="switchTab(1)">🌐 Sitio web</div>
+  <div class="tab" onclick="switchTab(2)">🔑 Seguridad</div>
+</div>
+
+<!-- TAB 0: Servicios -->
+<div class="tab-content active" id="tab0">
+<div class="section">
+  <h3>Módulos de servicios <button class="btn btn-sm btn-green" onclick="addService()">+ Agregar servicio</button></h3>
+  <div id="servicesList"></div>
+</div>
+<button class="btn btn-dark" style="width:100%" onclick="saveAll()">💾 GUARDAR TODOS LOS CAMBIOS</button>
+</div>
+
+<!-- TAB 1: Sitio web -->
+<div class="tab-content" id="tab1">
+<div class="section"><h3>Página principal</h3>
+  <div class="fg"><label>Título hero</label><input id="c_hero_titulo"></div>
+  <div class="fg"><label>Subtítulo hero</label><input id="c_hero_subtitulo"></div>
+</div>
+<div class="section"><h3>WhatsApp</h3>
+  <div class="fg"><label>Mensaje predefinido</label><textarea id="c_mensaje_whatsapp"></textarea></div>
+  <div class="fg"><label>Número (sin +)</label><input id="c_telefono_whatsapp" placeholder="593963334582"></div>
+</div>
+<div class="section"><h3>Contacto</h3>
+  <div class="fg"><label>Email</label><input id="c_email_contacto"></div>
+</div>
+<button class="btn btn-dark" style="width:100%" onclick="saveAll()">💾 GUARDAR CAMBIOS</button>
+</div>
+
+<!-- TAB 2: Seguridad -->
+<div class="tab-content" id="tab2">
+<div class="section"><h3>Cambiar clave de acceso</h3>
+  <div class="fg"><label>Clave actual</label><input type="password" id="curPwd"></div>
+  <div class="fg"><label>Nueva clave (mín. 6 caracteres)</label><input type="password" id="newPwd"></div>
+  <div class="fg"><label>Confirmar nueva clave</label><input type="password" id="newPwd2"></div>
+  <button class="btn btn-red" onclick="changePwd()">Cambiar clave</button>
+</div>
+<button class="btn btn-dark" style="width:100%;margin-top:20px" onclick="logout()">Cerrar sesión</button>
+</div>
+
+</div><!-- /adminPanel -->
+</div><!-- /wrap -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+var API=localStorage.getItem('am_api')||'';
+var KEY='';
+var servicios=[];
+
+document.getElementById('apiUrl').value=API;
+
+function showToast(m){var t=document.getElementById('toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',3000);}
+function switchTab(n){document.querySelectorAll('.tab').forEach((t,i)=>{t.classList.toggle('active',i===n)});document.querySelectorAll('.tab-content').forEach((c,i)=>{c.classList.toggle('active',i===n)});}
+
+async function doLogin(){
+  API=localStorage.getItem('am_api')||'';
+  KEY=document.getElementById('authKey').value;
+  if(!API){alert('Configure la URL del API primero');return;}
+  try{
+    var r=await fetch(API+'?action=verifyAuth&key='+encodeURIComponent(KEY)+'&t='+Date.now());
+    var d=await r.json();
+    if(d.status==='ok'){document.getElementById('loginBox').style.display='none';document.getElementById('adminPanel').style.display='block';loadAll();}
+    else{document.getElementById('loginErr').style.display='block';}
+  }catch(e){alert('Error de conexión: '+e.message);}
+}
+
+async function loadAll(){
+  try{
+    var r=await fetch(API+'?action=getConfig&t='+Date.now());var d=await r.json();
+    if(d.status==='ok'){
+      var c=d.config;
+      servicios=c.servicios||[];
+      renderServices();
+      // Fill general fields
+      ['hero_titulo','hero_subtitulo','mensaje_whatsapp','telefono_whatsapp','email_contacto'].forEach(k=>{
+        var el=document.getElementById('c_'+k);if(el&&c[k])el.value=c[k];
+      });
+    }
+  }catch(e){console.error(e);}
+}
+
+function renderServices(){
+  var html='';
+  servicios.forEach(function(s,i){
+    html+=`<div class="svc-card ${s.activo?'':'inactive'}">
+      <div class="svc-header">
+        <div style="display:flex;align-items:center;gap:8px">
+          <input class="fg" style="width:50px;font-size:20px;text-align:center;padding:6px;margin:0" value="${s.icon||'📦'}" onchange="servicios[${i}].icon=this.value">
+          <input style="font-weight:700;font-size:15px;border:none;background:transparent;color:var(--dark);width:250px" value="${s.nombre}" onchange="servicios[${i}].nombre=this.value">
+        </div>
+        <div style="display:flex;gap:4px;align-items:center">
+          <label style="font-size:11px;display:flex;align-items:center;gap:4px;cursor:pointer"><input type="checkbox" ${s.activo?'checked':''} onchange="servicios[${i}].activo=this.checked;renderServices()"> Activo</label>
+        </div>
+      </div>
+      <div class="svc-grid">
+        <div class="fg" style="margin:0"><label style="font-size:11px">Precio ($)</label><input value="${s.precio}" onchange="servicios[${i}].precio=this.value" placeholder="300 o Consultar"></div>
+        <div class="fg" style="margin:0"><label style="font-size:11px">Tipo</label><select onchange="servicios[${i}].tipo=this.value"><option value="planos" ${s.tipo==='planos'?'selected':''}>Planos</option><option value="articulos" ${s.tipo==='articulos'?'selected':''}>Artículos</option><option value="otro" ${s.tipo==='otro'?'selected':''}>Otro</option></select></div>
+      </div>
+      <div class="fg" style="margin:8px 0 0"><label style="font-size:11px">Descripción</label><textarea style="min-height:40px" onchange="servicios[${i}].desc=this.value">${s.desc}</textarea></div>
+      <div class="svc-actions">
+        <button class="btn btn-sm btn-red" onclick="if(confirm('¿Eliminar este servicio?')){servicios.splice(${i},1);renderServices();}">🗑 Eliminar</button>
+      </div>
+    </div>`;
+  });
+  document.getElementById('servicesList').innerHTML=html;
+}
+
+function addService(){
+  servicios.push({
+    id:'svc_'+Date.now(),
+    icon:'📦',
+    nombre:'Nuevo Servicio',
+    desc:'Descripción del servicio.',
+    precio:'0',
+    tipo:'planos',
+    activo:true
+  });
+  renderServices();
+  // Scroll to bottom
+  var list=document.getElementById('servicesList');
+  list.lastElementChild.scrollIntoView({behavior:'smooth'});
+  showToast('Servicio agregado. No olvides guardar.');
+}
+
+async function saveAll(){
+  var config={
+    servicios:servicios,
+    hero_titulo:document.getElementById('c_hero_titulo').value,
+    hero_subtitulo:document.getElementById('c_hero_subtitulo').value,
+    mensaje_whatsapp:document.getElementById('c_mensaje_whatsapp').value,
+    telefono_whatsapp:document.getElementById('c_telefono_whatsapp').value,
+    email_contacto:document.getElementById('c_email_contacto').value,
+  };
+  try{
+    await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'updateConfig',authKey:KEY,config:config})});
+    showToast('✓ Cambios guardados. Se reflejan al instante.');
+  }catch(e){alert('Error al guardar');}
+}
+
+async function changePwd(){
+  var c=document.getElementById('curPwd').value,n=document.getElementById('newPwd').value,n2=document.getElementById('newPwd2').value;
+  if(n!==n2){alert('Las claves no coinciden');return;}if(n.length<6){alert('Mínimo 6 caracteres');return;}
+  try{
+    await fetch(API,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'changePassword',currentKey:c,newKey:n})});
+    showToast('✓ Clave actualizada');KEY=n;
+  }catch(e){alert('Error');}
+}
+
+function logout(){document.getElementById('adminPanel').style.display='none';document.getElementById('loginBox').style.display='block';KEY='';}
+</script></body></html>
